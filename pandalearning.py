@@ -53,7 +53,7 @@ def show_score(cookies):
 
 
 def article(cookies, a_log, each):
-    if each[0] < 6 or each[3] < 8:
+    if each[0] < 6 or each[3] < 6:
         driver_article = mydriver.Mydriver(nohead=nohead)
         driver_article.get_url("https://www.xuexi.cn/notFound.html")
         driver_article.set_cookies(cookies)
@@ -110,7 +110,7 @@ def article(cookies, a_log, each):
 
 
 def video(cookies, v_log, each):
-    if each[1] < 6 or each[4] < 10:
+    if each[1] < 6 or each[4] < 6:
         driver_video = mydriver.Mydriver(nohead=nohead)
         driver_video.get_url("https://www.xuexi.cn/notFound.html")
         driver_video.set_cookies(cookies)
