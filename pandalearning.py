@@ -60,8 +60,8 @@ def show_score(cookies):
     lst = ['阅读文章:{}/{}'.format(each[0], ARTICLE_COUNT),
            '观看视频:{}/{}'.format(each[1], VIDEO_COUNT),
            '登录:{}/1'.format(each[2]),
-           '文章时长:{}/1'.format(each[3], ARTICLE_SCORE),
-           '视频时长:{}/1'.format(each[4], VIDEO_SCORE),
+           '文章时长:{}/{}'.format(each[3], ARTICLE_SCORE),
+           '视频时长:{}/{}'.format(each[4], VIDEO_SCORE),
            ]
     print(','.join(lst))
     return total, each
