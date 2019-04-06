@@ -73,16 +73,12 @@ def article(cookies, a_log, each):
         driver_article.get_url("https://www.xuexi.cn/notFound.html")
         driver_article.set_cookies(cookies)
         links = get_links.get_article_links()
-        for _ in range(10):
-            if each[0] >= ARTICLE_COUNT:
-                print("检测到文章数量分数已满,退出学习")
-                break
-
+        for i in range(ARTICLE_COUNT - each[0], 0, -1):
             driver_article.get_url(links[a_log])
             time.sleep(random.uniform(5, 10))
-            for i in range(ARTICLE_TIME):
-                driver_article.go_js('window.scrollTo(0, document.body.scrollHeight/30*{})'.format(i))
-                print("\r文章学习中，文章剩余{}篇,本篇剩余时间{}秒....".format(ARTICLE_COUNT - each[0], ARTICLE_TIME - i), end="")
+            for j in range(ARTICLE_TIME):
+                driver_article.go_js('window.scrollTo(0, document.body.scrollHeight/30*{})'.format(j))
+                print("\r文章学习中，文章剩余{}篇,本篇剩余时间{}秒....".format(i, ARTICLE_TIME - j), end="")
                 time.sleep(1)
             time.sleep(random.uniform(2, 6))
             driver_article.go_js('window.scrollTo(0, document.body.scrollHeight)')
@@ -91,10 +87,9 @@ def article(cookies, a_log, each):
             with open("./user/{}/a_log".format(uname), "w", encoding="utf8") as fp:
                 fp.write(str(a_log))
 
-            total, each = show_score(cookies)
-        else:
-            print("文章学习(篇数)出现异常，请调整学习时间")
+        print('文章数量学习完成')
 
+        total, each = show_score(cookies)
         if each[3] < ARTICLE_SCORE:
             driver_article.get_url(links[a_log - 1])
             time.sleep(random.uniform(2, 6))
@@ -108,8 +103,6 @@ def article(cookies, a_log, each):
             total, each = show_score(cookies)
             if each[3] >= ARTICLE_SCORE:
                 print("检测到文章时长分数已满,退出学习")
-            else:
-                print("文章学习(时长)出现异常")
 
         if each[0] >= ARTICLE_COUNT and each[3] >= ARTICLE_SCORE_MINUTE:
             print("文章学习完成")
@@ -125,17 +118,16 @@ def video(cookies, v_log, each):
         driver_video.set_cookies(cookies)
         links = get_links.get_video_links()
         video_open = False
-        for _ in range(10):
-            if each[1] >= VIDEO_COUNT:
-                print("检测到视频数量分数已满,退出学习")
-                break
+        time_start = time.time()
 
+        for i in range(VIDEO_COUNT - each[1], 0, -1):
             driver_video.get_url(links[v_log])
             video_open = True
             time.sleep(random.uniform(5, 10))
+
             for j in range(VIDEO_TIME):
-                driver_video.go_js('window.scrollTo(0, document.body.scrollHeight/180*{})'.format(j))
-                print("\r视频学习中，视频剩余{}个,本次剩余时间{}秒....".format(VIDEO_COUNT - each[1], VIDEO_TIME - j), end="")
+                driver_video.go_js('window.scrollTo(0, document.body.scrollHeight/{}*{})'.format(VIDEO_TIME, j))
+                print("\r视频学习中，视频剩余{}个,本次剩余时间{}秒....".format(i, VIDEO_TIME - j), end="")
                 time.sleep(1)
 
             v_log += 1
@@ -143,37 +135,35 @@ def video(cookies, v_log, each):
             with open("./user/{}/v_log".format(uname), "w", encoding="utf8") as fp:
                 fp.write(str(v_log))
             # driver_video.go_js('window.scrollTo(0, document.body.scrollHeight)')
-            total, each = show_score(cookies)
-        else:
-            print("视频学习(数量)出现异常，请调整学习时间")
+
+        total, each = show_score(cookies)
+        print('视频数量学习完成')
 
         if each[4] < VIDEO_SCORE:
-            remaining = (VIDEO_SCORE - each[4]) * VIDEO_SCORE_MINUTE * 60
-            # max_time = remaining + 180
 
-            # while time_count < max_time:
+            remaining_1 = (VIDEO_SCORE - each[4]) * VIDEO_SCORE_MINUTE * 60
+            remaining_2 = VIDEO_SCORE * VIDEO_SCORE_MINUTE * 60 - (time.time() - time_start) * 0.8
+            remaining_2 = (remaining_2 // 30 + 1) * 30
+            remaining = min(remaining_1, remaining_2)
+
             if not video_open:
                 driver_video.get_url(links[v_log - 1])
-                video_open = True
 
-            # random_time = random.randint(60, 180)
-            for i in range(remaining + 60):
+            time.sleep(random.uniform(5, 10))
+            for i in range(remaining):
                 driver_video.go_js(
                     'window.scrollTo(0, document.body.scrollHeight/{}*{})'.format(remaining, i))
                 print("\r视频时长学习中，视频总时长剩余{}秒.....".format(remaining - i), end="")
                 time.sleep(1)
-                if remaining - i < VIDEO_SCORE_MINUTE * 60 and i % 43 == 0:
-                    total, each = show_score(cookies)
-                    if each[4] >= VIDEO_SCORE:
-                        print("检测到视频时长分数已满,退出学习")
-                        break
-            else:
-                print("视频学习(时长)出现异常")
-            time.sleep(random.random())
-            # driver_video.go_js('window.scrollTo(0, document.body.scrollHeight)')
 
-            if each[1] > VIDEO_COUNT and each[4] >= VIDEO_SCORE:
-                print("视频学习完成")
+            time.sleep(random.uniform(2, 6))
+            # driver_video.go_js('window.scrollTo(0, document.body.scrollHeight)')
+            total, each = show_score(cookies)
+            if each[4] >= VIDEO_SCORE:
+                print('视频时长学习完成')
+
+        if each[1] >= VIDEO_COUNT and each[4] >= VIDEO_SCORE:
+            print("视频学习完成")
         driver_video.quit()
     else:
         print("视频之前学完了")
