@@ -3,7 +3,7 @@ import requests
 
 
 def up_info():
-    __Version = "v2.3 preview"
+    __Version = "v2.4"
     __INFO = "熊猫学习唯一下载地址为 https://github.com/Alivon/Panda-Learning"
 
     try:

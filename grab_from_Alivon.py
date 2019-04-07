@@ -10,6 +10,7 @@ path_url = {
     './pdlearn/threads.py': 'https://github.com/Alivon/Panda-Learning/raw/master/Source%20Packages/pdlearn/threads.py',
     './pdlearn/user.py': 'https://github.com/Alivon/Panda-Learning/raw/master/Source%20Packages/pdlearn/user.py',
     './pdlearn/version.py': 'https://github.com/Alivon/Panda-Learning/raw/master/Source%20Packages/pdlearn/version.py',
+    './pdlearn/user_agent.py': 'https://github.com/Alivon/Panda-Learning/raw/master/Source%20Packages/pdlearn/user_agent.py',
 }
 
 for path, url in path_url.items():
