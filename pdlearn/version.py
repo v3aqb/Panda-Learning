@@ -23,11 +23,12 @@ def up_info():
     except Exception:
         print("版本信息网络错误")
 
+    print(__INFO)
+    print("程序版本为：{}".format(__Version))
     try:
         version_info = open('./user/version_info').read().splitlines()
         if __Version < version_info[1].split("=")[1]:
-            print(__INFO)
-            print("程序版本为：{}\n最新版本为：{}".format(__Version, version_info[1].split("=")[1]))
+            print("最新版本为：{}".format(version_info[1].split("=")[1]))
             print("=" * 120)
             print("当前不是最新版本，建议更新")
             print("=" * 120)
