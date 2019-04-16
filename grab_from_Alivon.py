@@ -9,12 +9,18 @@ path_url = {
     './pdlearn/score.py': 'https://github.com/Alivon/Panda-Learning/raw/master/Source%20Packages/pdlearn/score.py',
     './pdlearn/threads.py': 'https://github.com/Alivon/Panda-Learning/raw/master/Source%20Packages/pdlearn/threads.py',
     './pdlearn/user.py': 'https://github.com/Alivon/Panda-Learning/raw/master/Source%20Packages/pdlearn/user.py',
-    './pdlearn/version.py': 'https://github.com/Alivon/Panda-Learning/raw/master/Source%20Packages/pdlearn/version.py',
     './pdlearn/user_agent.py': 'https://github.com/Alivon/Panda-Learning/raw/master/Source%20Packages/pdlearn/user_agent.py',
+    './pdlearn/version.py': 'https://github.com/Alivon/Panda-Learning/raw/master/Source%20Packages/pdlearn/version.py',
 }
 
-for path, url in path_url.items():
-    print('downloading %s' % path)
-    data = urllib.request.urlopen(url).read()
-    with open(path, 'wb') as f:
-        f.write(data)
+
+def update():
+    for path, url in path_url.items():
+        print('downloading %s' % path)
+        data = urllib.request.urlopen(url).read()
+        with open(path, 'wb') as f:
+            f.write(data)
+
+
+if __name__ == '__main__':
+    update()
