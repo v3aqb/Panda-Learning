@@ -173,7 +173,7 @@ def video(cookies, v_log, each):
 
 if __name__ == '__main__':
     #  0 读取版本信息
-    version.up_info()
+    threads.MyThread("读取版本信息", version.up_info).start()
     #  1 创建用户标记，区分多个用户历史纪录
     dd_status, uname = user.get_user()
     cookies, a_log, v_log = user_flag(dd_status, uname)
